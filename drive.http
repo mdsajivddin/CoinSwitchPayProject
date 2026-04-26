@@ -1,0 +1,645 @@
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWEzZTgxY2ZiY2I5MjI2N2I5MGQ4MmIiLCJpYXQiOjE3NzIzODA5OTAsImV4cCI6MTgwMzkxNjk5MH0.XpQ-shKF4_iIT4Um3GblH_6UUrSpMpwkN6Y1oSqTlbc
+# @url =  https://backend.weloads.live
+# @url =  http://192.168.1.43:8191
+# @url =  https://dhan.globallywebsolutions.ca
+@url =  https://coinswitchpay.com
+# 
+
+//Register for client
+###
+POST {{url}}/api/v1/user/register HTTP/1.1
+Content-type: application/json
+
+{
+      "name": "user1",
+      "email": "user1@gmail.com",
+      "deviceId": "user1@gmail.com",
+      "refByCode": "",
+      "password": "123456"
+}
+
+
+//registerVerify
+###
+POST {{url}}/api/v1/user/registerVerify HTTP/1.1
+Content-type: application/json
+
+{
+    "token": "qc65Ouv7SvEB7bt1ffu3DN8NW9QH1gYyzZ4rJZ2b",
+    "otp": "123456"
+}
+
+//login
+###
+POST {{url}}/api/v1/user/login HTTP/1.1
+Content-type: application/json
+
+{
+    "loginType": "ali@gmail.com",
+    "password": "123456"
+}
+
+//verifyUser
+###
+POST {{url}}/api/v1/user/verifyUser HTTP/1.1
+Content-type: application/json
+
+{
+    "token": "TcnGysSbGWnWIG5jPcfFI0rasNp9mqj83A78d58c",
+    "otp": "123456"
+}
+
+//forgotPassword
+###
+POST {{url}}/api/v1/user/forgotPassword HTTP/1.1
+Content-type: application/json
+
+{
+    "loginType": "ali@gmail.com"
+}
+
+
+//forgotPasswordVerify
+###
+POST {{url}}/api/v1/user/forgotPasswordVerify HTTP/1.1
+Content-type: application/json
+
+{
+    "token": "I1gP9ljQKO1qMaG3yMVy6YZVlWI5one8fv1jnDhf",
+    "otp": "123456",
+    "newPassword": "12345678",
+    "confirmPassword": "12345678"
+}
+
+
+//profileGet
+###
+GET  {{url}}/api/v1/user/getProfile HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+
+//setPinToInr
+###
+POST {{url}}/api/v1/user/setPinToInr HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "pin": "1234"
+}
+
+//setPinToToken
+###
+POST  {{url}}/api/v1/user/setPinToToken HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "pin": "1234"
+}
+
+
+//getAllQrCodes for token
+###
+GET  {{url}}/api/v1/user/getAllQrCodes?isUpi=false HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+//getAllQrCodes for upi
+###
+GET  {{url}}/api/v1/user/getAllQrCodes?isUpi=true HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+//createOrUpdateKyc
+###
+POST  {{url}}/api/v1/user/createOrUpdateKyc HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "front": "https://res.cloudinary.com/dcxhrd0rd/image/upload/v1771493045/gy4c8devmbvuxsvxunqv.jpg",
+    "back": "https://res.cloudinary.com/dcxhrd0rd/image/upload/v1771493045/gy4c8devmbvuxsvxunqv.jpg",
+    "name": "sajivddin",
+    "amount":  "100",
+    "hash": "sdadf",
+    "screenshot image" :""
+}
+
+//createOrUpdateKyc
+###
+GET {{url}}/api/v1/user/getKyc HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+
+//createUpi
+###
+POST {{url}}/api/v1/user/createUpi HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "upi": "sajiv@upi"
+}
+
+//getUpi
+###
+GET {{url}}/api/v1/user/getUpi HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+//deleteUpi
+###
+POST {{url}}/api/v1/user/deleteUpi HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "id": "69904df4f11117091932060b"
+}
+
+//updateUpiStatus
+###
+POST {{url}}/api/v1/user/updateUpiStatus HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "upiId": "69904df4f11117091932060b",
+    "isDisable": false
+}
+
+//createDeposit
+###
+POST {{url}}/api/v1/user/createDeposit HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{   
+    "amount": 500,
+    "qrCodeId": "698b551f0c1815791b8c1b5b",
+    "image": "jfkladjl.js",
+    "walletType": "INR"
+    //"INR" / "TOKEN"
+}
+
+//createDeposit
+###
+POST {{url}}/api/v1/user/createDeposit HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "amount": 500,
+    "qrCodeId": "698b55020c1815791b8c1b58",
+    "image": "jfkladjl.js",
+    "hash": "123456789123",
+    "walletType": "TOKEN"
+}
+
+//createWithdraw
+###
+POST {{url}}/api/v1/user/createWithdraw HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "amount": 1,
+    "pin": "1234",
+    "walletType": "TOKEN"
+     // "walletType": "INR"
+    //"INR" / "TOKEN"
+}
+
+
+//getTransactionList
+###
+GET {{url}}/api/v1/user/getTransactionList?page=1&limit=10 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+# //findUser
+# ###
+# POST {{url}}/api/v1/user/findUser HTTP/1.1
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# {
+#     "email": "ali@gmail.com"
+# }
+
+# //createP2PTransfer
+# ###
+# POST {{url}}/api/v1/user/createP2PTransfer HTTP/1.1
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# {
+#     "receiverId": "fdjashdk",
+#      "walletType": "INR",
+#     "amount": 10,
+#     "pin": "xyz",
+#     //"INR" / "TOKEN"
+# }
+
+
+//getP2PTransactions
+###
+GET {{url}}/api/v1/user/getP2PTransactions?page=1&limit=10 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+/// uploadImage
+POST {{url}}/api/v1/uploadImage HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "file": "jfkladjl.js",
+}
+
+
+//updateProfile  
+###
+POST {{url}}/api/v1/user/updateProfile  HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "sajiv khan"
+}
+
+
+//updateImage
+###
+POST {{url}}/api/v1/user/updateImage   HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "image": "https://res.cloudinary.com/dcxhrd0rd/image/upload/v1771485271/gy3jhlsxm6pz4nimtv2r.jp"
+}
+
+
+
+//createSellOrder
+###
+POST {{url}}/api/v1/user/createSellOrder HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "amount": 10,
+    "price": 100,
+    "sellerAddress": "hfdkahsfkhasdfhadkjsh",
+    "walletType": "INR"
+}
+
+
+//getPendingSellOrders
+###
+GET {{url}}/api/v1/user/getPendingSellOrders HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+//requestBuyOrder
+###
+POST {{url}}/api/v1/user/requestBuyOrder HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "orderId": "699c07867e62556499720a89",
+    "hash": "fjdaksjfklasd",
+    "image": "image"
+}
+
+//acceptBuyRequest
+###
+POST {{url}}/api/v1/user/acceptBuyRequest HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+{
+    "orderId": "699c2efd183d305b0ec86761",
+    "status": "approve"
+}
+
+//getP2PTransactions
+###
+GET {{url}}/api/v1/user/getP2PTransactions?page=1&limit=10&type=sell HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+//getRequestSellOrders
+###
+GET {{url}}/api/v1/user/getRequestSellOrders?page=1&limit=10 HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//getRequestSellOrders
+###
+POST {{url}}/api/v1/user/raiseDispute HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "orderId": "69a7299ce5d3e8e9330fe129",
+    "reason": "sdfasdf"
+}
+
+
+
+/////////////////////////////// new api ////////////////////////////
+
+//getAllBanner
+###
+GET {{url}}/api/v1/user/getAllBanner HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+
+//getFoundTransferOptions
+###
+GET {{url}}/api/v1/user/getFoundTransferOptions HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+// getWallet
+###
+GET {{url}}/api/v1/user/getWallet HTTP/1.1
+Content-type: application/json
+Authorization: {{token}}
+
+//createUsdtDeposit
+###
+POST {{url}}/api/v1/user/createUsdtDeposit HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "network": "TRC20",
+    "pin": "1234",
+    "amount": 30
+}
+
+
+//submitUsdtDepositProof
+###
+POST {{url}}/api/v1/user/submitUsdtDepositProof HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "depositId": "69a129e0b442e08592e19bf4",
+    "hash": "699d3f56dcec3822ec82d490699d3f56dcec3822ec82d",
+    "image": "699d3f56dcec3822ec82d490",
+    "pin": "1234"
+}
+
+
+//cancelUsdtDeposit
+###
+POST {{url}}/api/v1/user/cancelUsdtDeposit HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "depositId": "699f3d0430b07cf53596c86e"
+}
+
+
+//getBuyInrDepositList
+###
+GET {{url}}/api/v1/user/getBuyInrDepositList?sortOrder=asc HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//processBuyInrDeposit
+###
+POST {{url}}/api/v1/user/processBuyInrDeposit HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "orderId": "69a139c58198d39023a9a933"
+}
+
+
+//cancelBuyInrDeposit
+###
+POST {{url}}/api/v1/user/cancelBuyInrDeposit HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "orderId": "699f3e4ee0e692f9eff4af0b"
+}
+
+
+//submitInrDepositProof
+###
+POST {{url}}/api/v1/user/submitInrDepositProof HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "orderId": "699f3e4ee0e692f9eff4af0b",
+    "hash": "183df2db2183df2db2183df2db2183df2db2",
+    "image": "183df2db2183df2db2",
+    "pin": "1234"
+}
+
+
+//getP2PBuyOrSellList
+###
+GET {{url}}/api/v1/user/getP2PBuyOrSellList?page=1&limit=10&txType=SELL HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+//getP2PBuyOrSellById
+###
+GET {{url}}/api/v1/user/getP2PBuyOrSellById?id=69a3dd54fbcb92267b90d78b HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//getP2PTransactions
+###
+GET {{url}}/api/v1/user/getP2PTransactions?page=1&limit=10 HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+
+//getTransactionList
+###
+GET {{url}}/api/v1/user/getTransactionList?page=1&limit=10&txType=deposit&walletType=USDT HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//saveSellInWallet
+###
+POST {{url}}/api/v1/user/saveSellInWallet HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "amount": 100,
+    "pin": "1234",
+    "walletType": "USDT",
+    "assetSymbol": "upi",
+    "paymentMethods": {
+      "methodType": "BANK_TRANSFER",
+      "label": "HDFC Bank",
+      "details": {
+        "accountNumber": "1234567890",
+        "ifsc": "HDFC0001234",
+        "accountHolderName": "John Doe"
+      },
+      "isPrimary": true
+    }
+}
+
+
+//createUpi
+###
+POST {{url}}/api/v1/user/createUpi HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "upi": "abc@ptm",
+    "name": "sajju"
+}
+
+//getUpi
+###
+GET {{url}}/api/v1/user/getUpi HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//deleteUpi
+###
+POST {{url}}/api/v1/user/deleteUpi HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "id": "69a008a7af2b9de17e87afcb"
+}
+
+//updateUpiStatus
+###
+POST {{url}}/api/v1/user/updateUpiStatus HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "upiId": "69a008d3af2b9de17e87afd2",
+    "isDisable": true
+}
+
+
+//createBank
+###
+POST {{url}}/api/v1/user/createBank HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "accountHolderName": "khan@ptm",
+    "bankName": "khan@ptm",
+    "accountNumber": "abc@ptm",
+    "ifscCode": "abc@ptm",
+    "branchName": "abc@ptm"
+}
+
+//getBank
+###
+GET {{url}}/api/v1/user/getBank HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//deleteBank
+###
+POST {{url}}/api/v1/user/deleteBank HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "bankId": "69a2a568bb38b914bca686a0"
+}
+
+//updateBankStatus
+###
+POST {{url}}/api/v1/user/updateBankStatus HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "bankId": "69a2b00fbb38b914bca686b5",
+    "isDisable": false
+}
+
+
+
+//changePin
+###
+POST {{url}}/api/v1/user/changePin HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "oldPin": "69a008d3af2b9de17e87afd2",
+    "newPin": "",
+    "confirmPin": ""
+}
+
+//forgotPin
+###
+POST {{url}}/api/v1/user/forgotPin HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+
+//forgotPinVerify
+###
+POST {{url}}/api/v1/user/forgotPinVerify HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "token": "69a008d3af2b9de17e87afd2",
+    "otp": "",
+    "newPin": "",
+    "confirmPin": ""
+}
+
+
+//releaseAmountRejectOrApprove
+###
+POST {{url}}/api/v1/user/releaseAmountRejectOrApprove HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "orderId": "69a008d3af2b9de17e87afd2",
+    "rejectReason": "",
+    "status": ""
+}
+
+
+# processBuyInrDeposit
+GET {{url}}/api/v1/user/processBuyInrDeposit HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
