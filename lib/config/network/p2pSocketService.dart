@@ -18,7 +18,7 @@ class P2pSocketService {
     if (isConnected) return;
 
     socket = IO.io(
-      "https://coinswitchpay.com",
+      "https://api.coinswitchpay.com",
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()

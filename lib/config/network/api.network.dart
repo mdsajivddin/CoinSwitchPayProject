@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:payment_app/data/model/addBankBodyModel.dart';
 import 'package:payment_app/data/model/addBankResModel.dart';
@@ -112,7 +111,8 @@ import 'package:retrofit/retrofit.dart';
 part 'api.network.g.dart';
 
 // @RestApi(baseUrl: "https://dhan.globallywebsolutions.ca")
-@RestApi(baseUrl: "https://coinswitchpay.com")
+// @RestApi(baseUrl: "https://coinswitchpay.com")
+@RestApi(baseUrl: "https://api.coinswitchpay.com")
 abstract class ApiNetwork {
   factory ApiNetwork(Dio dio, {String baseUrl}) = _ApiNetwork;
 

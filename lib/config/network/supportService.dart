@@ -15,7 +15,8 @@ class SupportService {
     if (_isConnected) return; // 🔥 prevent multiple connect
 
     socket = IO.io(
-      "https://coinswitchpay.com",
+      // "https://coinswitchpay.com",
+      "https://api.coinswitchpay.com",
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .enableAutoConnect()

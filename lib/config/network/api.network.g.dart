@@ -10,7 +10,7 @@ part of 'api.network.dart';
 
 class _ApiNetwork implements ApiNetwork {
   _ApiNetwork(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://coinswitchpay.com';
+    baseUrl ??= 'https://api.coinswitchpay.com';
   }
 
   final Dio _dio;

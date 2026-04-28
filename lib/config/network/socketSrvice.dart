@@ -16,7 +16,7 @@ class SocketService {
 
   void connect() {
     socket = IO.io(
-      "https://coinswitchpay.com",
+      "https://api.coinswitchpay.com",
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .enableAutoConnect()
