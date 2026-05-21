@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:payment_app/Screen/refreshRotate.page.dart';
 import 'package:payment_app/config/network/socketSrvice.dart';
+import 'package:payment_app/config/utils/showMessage.dart';
 import 'package:payment_app/data/controller/depositeINRListController.dart';
 import 'package:payment_app/data/controller/depositeUSDTController.dart';
 import 'package:payment_app/data/controller/getBuyInrDepositeController.dart';
@@ -44,8 +45,6 @@ class _DepositPageState extends ConsumerState<DepositPage> {
         child: Column(
           children: [
             SizedBox(height: 15.h),
-
-            /// 🔹 AppBar Row
             Row(
               children: [
                 SizedBox(width: 20.w),
@@ -59,7 +58,6 @@ class _DepositPageState extends ConsumerState<DepositPage> {
                 ),
               ],
             ),
-
             SizedBox(height: 30.h),
             Container(
               margin: EdgeInsets.only(left: 20.w, right: 20.w),
@@ -70,7 +68,6 @@ class _DepositPageState extends ConsumerState<DepositPage> {
               ),
               child: Row(children: [buildTab("USDT", 0), buildTab("INR", 1)]),
             ),
-
             Expanded(
               child:
                   selectedTab == 0 ? buildUSDkUI(isLoading) : DepositInrPage(),
@@ -83,7 +80,6 @@ class _DepositPageState extends ConsumerState<DepositPage> {
 
   Widget buildTab(String text, int index) {
     final isSelected = selectedTab == index;
-
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -124,7 +120,7 @@ class _DepositPageState extends ConsumerState<DepositPage> {
             _glassField(
               child: TextField(
                 controller: amountController,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontSize: 15.sp,
@@ -350,14 +346,15 @@ class _DepositPageState extends ConsumerState<DepositPage> {
   void _handleDeposit() {
     final amountText = amountController.text.trim();
     if (amountText.isEmpty || pinController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
+      ShowMessage.error(context, "Please fill all fields");
       return;
     }
 
-    final amount = int.tryParse(amountText);
-    if (amount == null) return;
+    final amount = num.tryParse(amountText);
+    if (amount == null) {
+      ShowMessage.error(context, "Please enter a valid amount");
+      return;
+    }
 
     ref
         .read(usdtDepositeProvider.notifier)
@@ -374,7 +371,7 @@ class _DepositPageState extends ConsumerState<DepositPage> {
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1921), // Image wala dark background
+        color: const Color(0xFF0D1921),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),

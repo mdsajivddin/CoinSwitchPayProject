@@ -23,7 +23,7 @@ class USDTDepositeController
 
   Future<void> createUSDTDeposite({
     required BuildContext context,
-    required int ammount,
+    required num ammount,
     required String network,
     required String pin,
   }) async {

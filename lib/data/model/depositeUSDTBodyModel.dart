@@ -11,7 +11,7 @@ String depositeUsdtBodyModelToJson(DepositeUsdtBodyModel data) => json.encode(da
 class DepositeUsdtBodyModel {
     String? network;
     String? pin;
-    int? amount;
+    num? amount;
 
     DepositeUsdtBodyModel({
         this.network,

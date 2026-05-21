@@ -41,7 +41,7 @@ class DepositeUsdtResModel {
 
 class Data {
   String? depositId;
-  int? amount;
+  num? amount;
   String? network;
   DateTime? expiresAt;
   String? walletAddress;
