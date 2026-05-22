@@ -64,7 +64,7 @@ class Datum {
   CounterParty? counterParty;
   String? txType;
   String? walletType;
-  int? amount;
+  num? amount;
   double? rate;
   String? status;
   Dispute? dispute;

@@ -12,29 +12,25 @@ class GetP2PTrasationSellModel {
   bool? error;
   Data? data;
 
-  GetP2PTrasationSellModel({
-    this.message,
-    this.code,
-    this.error,
-    this.data,
-  });
+  GetP2PTrasationSellModel({this.message, this.code, this.error, this.data});
 
   factory GetP2PTrasationSellModel.fromJson(Map<String, dynamic> json) =>
       GetP2PTrasationSellModel(
         message: json["message"],
         code: (json["code"] as num?)?.toInt(),
         error: json["error"],
-        data: json["data"] is Map<String, dynamic>
-            ? Data.fromJson(json["data"])
-            : null,
+        data:
+            json["data"] is Map<String, dynamic>
+                ? Data.fromJson(json["data"])
+                : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "message": message,
-        "code": code,
-        "error": error,
-        "data": data?.toJson(),
-      };
+    "message": message,
+    "code": code,
+    "error": error,
+    "data": data?.toJson(),
+  };
 }
 
 class Data {
@@ -43,33 +39,29 @@ class Data {
   int? pages;
   List<Datum>? data;
 
-  Data({
-    this.total,
-    this.page,
-    this.pages,
-    this.data,
-  });
+  Data({this.total, this.page, this.pages, this.data});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        total: (json["total"] as num?)?.toInt(),
-        page: (json["page"] as num?)?.toInt(),
-        pages: (json["pages"] as num?)?.toInt(),
-        data: json["data"] is List
+    total: (json["total"] as num?)?.toInt(),
+    page: (json["page"] as num?)?.toInt(),
+    pages: (json["pages"] as num?)?.toInt(),
+    data:
+        json["data"] is List
             ? List<Datum>.from(
-                json["data"]
-                    .where((x) => x is Map<String, dynamic>)
-                    .map((x) => Datum.fromJson(x)))
+              json["data"]
+                  .where((x) => x is Map<String, dynamic>)
+                  .map((x) => Datum.fromJson(x)),
+            )
             : [],
-      );
+  );
 
   Map<String, dynamic> toJson() => {
-        "total": total,
-        "page": page,
-        "pages": pages,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+    "total": total,
+    "page": page,
+    "pages": pages,
+    "data":
+        data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+  };
 }
 
 class Datum {
@@ -81,7 +73,7 @@ class Datum {
   List<PaymentMethod>? paymentMethods;
   String? txType;
   String? walletType;
-  double? amount;
+  num? amount;
   double? rate;
   String? status;
   Dispute? dispute;
@@ -126,81 +118,87 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["_id"],
-        orderId: json["orderId"],
+    id: json["_id"],
+    orderId: json["orderId"],
 
-        // SAFE CREATOR
-        creator: json["creator"] is Map<String, dynamic>
+    // SAFE CREATOR
+    creator:
+        json["creator"] is Map<String, dynamic>
             ? Creator.fromJson(json["creator"])
             : null,
 
-        name: json["name"],
-        creatorModel: json["creatorModel"],
+    name: json["name"],
+    creatorModel: json["creatorModel"],
 
-        // 🔥 SAFE COUNTER PARTY (Fix for your error)
-        counterParty: json["counterParty"] is Map<String, dynamic>
+    // 🔥 SAFE COUNTER PARTY (Fix for your error)
+    counterParty:
+        json["counterParty"] is Map<String, dynamic>
             ? CounterParty.fromJson(json["counterParty"])
             : null,
 
-        // SAFE PAYMENT METHODS
-        paymentMethods: json["paymentMethods"] is List
+    // SAFE PAYMENT METHODS
+    paymentMethods:
+        json["paymentMethods"] is List
             ? List<PaymentMethod>.from(
-                json["paymentMethods"]
-                    .where((x) => x is Map<String, dynamic>)
-                    .map((x) => PaymentMethod.fromJson(x)))
+              json["paymentMethods"]
+                  .where((x) => x is Map<String, dynamic>)
+                  .map((x) => PaymentMethod.fromJson(x)),
+            )
             : [],
 
-        txType: json["txType"],
-        walletType: json["walletType"],
-        amount: (json["amount"] as num?)?.toDouble(),
-        rate: (json["rate"] as num?)?.toDouble(),
-        status: json["status"],
+    txType: json["txType"],
+    walletType: json["walletType"],
+    amount: (json["amount"] as num?)?.toDouble(),
+    rate: (json["rate"] as num?)?.toDouble(),
+    status: json["status"],
 
-        dispute: json["dispute"] is Map<String, dynamic>
+    dispute:
+        json["dispute"] is Map<String, dynamic>
             ? Dispute.fromJson(json["dispute"])
             : null,
 
-        isDisable: json["isDisable"],
-        isDeleted: json["isDeleted"],
-        date: (json["date"] as num?)?.toInt(),
-        month: (json["month"] as num?)?.toInt(),
-        year: (json["year"] as num?)?.toInt(),
-        createdAt: (json["createdAt"] as num?)?.toInt(),
-        updatedAt: (json["updatedAt"] as num?)?.toInt(),
-        v: (json["__v"] as num?)?.toInt(),
-        counterPartyModel: json["counterPartyModel"],
-        hash: json["hash"],
-        image: json["image"],
-      );
+    isDisable: json["isDisable"],
+    isDeleted: json["isDeleted"],
+    date: (json["date"] as num?)?.toInt(),
+    month: (json["month"] as num?)?.toInt(),
+    year: (json["year"] as num?)?.toInt(),
+    createdAt: (json["createdAt"] as num?)?.toInt(),
+    updatedAt: (json["updatedAt"] as num?)?.toInt(),
+    v: (json["__v"] as num?)?.toInt(),
+    counterPartyModel: json["counterPartyModel"],
+    hash: json["hash"],
+    image: json["image"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "orderId": orderId,
-        "creator": creator?.toJson(),
-        "name": name,
-        "creatorModel": creatorModel,
-        "counterParty": counterParty?.toJson(),
-        "paymentMethods": paymentMethods == null
+    "_id": id,
+    "orderId": orderId,
+    "creator": creator?.toJson(),
+    "name": name,
+    "creatorModel": creatorModel,
+    "counterParty": counterParty?.toJson(),
+    "paymentMethods":
+        paymentMethods == null
             ? []
             : List<dynamic>.from(paymentMethods!.map((x) => x.toJson())),
-        "txType": txType,
-        "walletType": walletType,
-        "amount": amount,
-        "rate": rate,
-        "status": status,
-        "dispute": dispute?.toJson(),
-        "isDisable": isDisable,
-        "isDeleted": isDeleted,
-        "date": date,
-        "month": month,
-        "year": year,
-        "createdAt": createdAt,
-        "updatedAt": updatedAt,
-        "__v": v,
-        "counterPartyModel": counterPartyModel,
-        "hash": hash,
-        "image": image,
-      };
+    "txType": txType,
+    "walletType": walletType,
+    "amount": amount,
+    "rate": rate,
+    "status": status,
+    "dispute": dispute?.toJson(),
+    "isDisable": isDisable,
+    "isDeleted": isDeleted,
+    "date": date,
+    "month": month,
+    "year": year,
+    "createdAt": createdAt,
+    "updatedAt": updatedAt,
+    "__v": v,
+    "counterPartyModel": counterPartyModel,
+    "hash": hash,
+    "image": image,
+  };
 }
 
 class CounterParty {
@@ -211,20 +209,19 @@ class CounterParty {
 
   CounterParty({this.id, this.name, this.email, this.image});
 
-  factory CounterParty.fromJson(Map<String, dynamic> json) =>
-      CounterParty(
-        id: json["_id"],
-        name: json["name"],
-        email: json["email"],
-        image: json["image"],
-      );
+  factory CounterParty.fromJson(Map<String, dynamic> json) => CounterParty(
+    id: json["_id"],
+    name: json["name"],
+    email: json["email"],
+    image: json["image"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "email": email,
-        "image": image,
-      };
+    "_id": id,
+    "name": name,
+    "email": email,
+    "image": image,
+  };
 }
 
 class Creator {
@@ -234,15 +231,9 @@ class Creator {
   Creator({this.id, this.name});
 
   factory Creator.fromJson(Map<String, dynamic> json) =>
-      Creator(
-        id: json["_id"],
-        name: json["name"],
-      );
+      Creator(id: json["_id"], name: json["name"]);
 
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() => {"_id": id, "name": name};
 }
 
 class Dispute {
@@ -253,16 +244,16 @@ class Dispute {
   Dispute({this.isDisputed, this.reason, this.resolvedByAdmin});
 
   factory Dispute.fromJson(Map<String, dynamic> json) => Dispute(
-        isDisputed: json["isDisputed"],
-        reason: json["reason"],
-        resolvedByAdmin: json["resolvedByAdmin"],
-      );
+    isDisputed: json["isDisputed"],
+    reason: json["reason"],
+    resolvedByAdmin: json["resolvedByAdmin"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "isDisputed": isDisputed,
-        "reason": reason,
-        "resolvedByAdmin": resolvedByAdmin,
-      };
+    "isDisputed": isDisputed,
+    "reason": reason,
+    "resolvedByAdmin": resolvedByAdmin,
+  };
 }
 
 class PaymentMethod {
@@ -280,24 +271,24 @@ class PaymentMethod {
     this.id,
   });
 
-  factory PaymentMethod.fromJson(Map<String, dynamic> json) =>
-      PaymentMethod(
-        methodType: json["methodType"],
-        label: json["label"],
-        details: json["details"] is Map<String, dynamic>
+  factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
+    methodType: json["methodType"],
+    label: json["label"],
+    details:
+        json["details"] is Map<String, dynamic>
             ? Details.fromJson(json["details"])
             : null,
-        isPrimary: json["isPrimary"],
-        id: json["_id"],
-      );
+    isPrimary: json["isPrimary"],
+    id: json["_id"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "methodType": methodType,
-        "label": label,
-        "details": details?.toJson(),
-        "isPrimary": isPrimary,
-        "_id": id,
-      };
+    "methodType": methodType,
+    "label": label,
+    "details": details?.toJson(),
+    "isPrimary": isPrimary,
+    "_id": id,
+  };
 }
 
 class Details {
@@ -318,20 +309,20 @@ class Details {
   });
 
   factory Details.fromJson(Map<String, dynamic> json) => Details(
-        upiId: json["upiId"],
-        accountHolderName: json["accountHolderName"],
-        bankName: json["bankName"],
-        accountNumber: json["accountNumber"],
-        ifscCode: json["ifscCode"],
-        branchName: json["branchName"],
-      );
+    upiId: json["upiId"],
+    accountHolderName: json["accountHolderName"],
+    bankName: json["bankName"],
+    accountNumber: json["accountNumber"],
+    ifscCode: json["ifscCode"],
+    branchName: json["branchName"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "upiId": upiId,
-        "accountHolderName": accountHolderName,
-        "bankName": bankName,
-        "accountNumber": accountNumber,
-        "ifscCode": ifscCode,
-        "branchName": branchName,
-      };
+    "upiId": upiId,
+    "accountHolderName": accountHolderName,
+    "bankName": bankName,
+    "accountNumber": accountNumber,
+    "ifscCode": ifscCode,
+    "branchName": branchName,
+  };
 }

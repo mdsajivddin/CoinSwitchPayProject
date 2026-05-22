@@ -41,11 +41,11 @@ class ConfirmSellResModel {
 class Data {
   String? userId;
   String? walletType;
-  int? amount;
-  double? rate;
-  int? totalAmount;
-  int? paidAmount;
-  int? remainAmount;
+  num? amount;
+  num? rate;
+  num? totalAmount;
+  num? paidAmount;
+  num? remainAmount;
   String? assetSymbol;
   // PaymentMethods? paymentMethods;
   List<PaymentMethods>? paymentMethods;
@@ -89,7 +89,7 @@ class Data {
     walletType: json["walletType"],
     amount: json["amount"],
     // rate: json["rate"],
-     rate: (json["rate"] as num?)?.toDouble(),
+    rate: (json["rate"] as num?)?.toDouble(),
     totalAmount: json["totalAmount"],
     paidAmount: json["paidAmount"],
     remainAmount: json["remainAmount"],
@@ -98,13 +98,14 @@ class Data {
     //     json["paymentMethods"] == null
     //         ? null
     //         : PaymentMethods.fromJson(json["paymentMethods"]),
-    paymentMethods: json["paymentMethods"] == null
-    ? []
-    : json["paymentMethods"] is List
-        ? List<PaymentMethods>.from(
-            json["paymentMethods"].map((x) => PaymentMethods.fromJson(x)),
-          )
-        : [PaymentMethods.fromJson(json["paymentMethods"])],
+    paymentMethods:
+        json["paymentMethods"] == null
+            ? []
+            : json["paymentMethods"] is List
+            ? List<PaymentMethods>.from(
+              json["paymentMethods"].map((x) => PaymentMethods.fromJson(x)),
+            )
+            : [PaymentMethods.fromJson(json["paymentMethods"])],
     status: json["status"],
     isDisable: json["isDisable"],
     isDeleted: json["isDeleted"],
@@ -131,9 +132,10 @@ class Data {
     "remainAmount": remainAmount,
     "assetSymbol": assetSymbol,
     // "paymentMethods": paymentMethods?.toJson(),
-    "paymentMethods": paymentMethods == null
-        ? []
-        : List<dynamic>.from(paymentMethods!.map((x) => x.toJson())),
+    "paymentMethods":
+        paymentMethods == null
+            ? []
+            : List<dynamic>.from(paymentMethods!.map((x) => x.toJson())),
     "status": status,
     "isDisable": isDisable,
     "isDeleted": isDeleted,

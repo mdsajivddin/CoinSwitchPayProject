@@ -166,7 +166,7 @@
 
 
 class ConfirmSellBodyModel {
-  int? amount;
+  num? amount;
   String? pin;
   String? walletType;
   String? assetSymbol;

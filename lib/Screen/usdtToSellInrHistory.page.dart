@@ -90,6 +90,7 @@ class _UsdtToSellInrHistoryPageState
             ),
         error: (err, stack) {
           log(stack.toString());
+          log(err.toString());
           return const Center(
             child: Text(
               "Something went wrong",

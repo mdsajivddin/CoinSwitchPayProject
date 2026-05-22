@@ -204,9 +204,10 @@ class _SellPageeState extends ConsumerState<SellPage> {
                               ),
                             ),
                             SizedBox(height: 20.h),
-                            // Balance Card
+
                             glassCard(
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "Available Balance",
@@ -216,25 +217,32 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  Text(
-                                    "${currentBalance.toStringAsFixed(2)} ${selectedTab == 0 ? 'USDT' : 'TOKEN'}",
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(width: 8.w),
-                                  GestureDetector(
-                                    onTap:
-                                        () =>
-                                            amountController
-                                                .text = currentBalance
-                                                .toStringAsFixed(2),
-                                    child: miniButton("Max"),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "${currentBalance.toStringAsFixed(2)} ${selectedTab == 0 ? 'USDT' : 'TOKEN'}",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5.w),
+                                      GestureDetector(
+                                        onTap:
+                                            () =>
+                                                amountController
+                                                    .text = currentBalance
+                                                    .toStringAsFixed(2),
+                                        child: miniButton("Max"),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
+
                             SizedBox(height: 20.h),
                             buildLabel("Enter Amount"),
                             SizedBox(height: 8.h),

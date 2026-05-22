@@ -200,7 +200,7 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
 
                   detailRow(
                     "Total Receive:",
-                    "₹${widget.totalamount}",
+                    "₹${widget.totalamount.toStringAsFixed(2)}",
                     isBold: true,
                   ),
 
@@ -295,8 +295,6 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
                         return;
                       }
 
-                      final amount = parsedAmount.toInt();
-
                       setState(() => isLoader = true);
 
                       try {
@@ -305,7 +303,7 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
                         final service = ApiNetwork(createDio());
 
                         final body = upiModel.ConfirmSellBodyModel(
-                          amount: amount,
+                          amount: parsedAmount,
                           pin: pinController.text.trim(),
                           walletType: widget.walletType,
                           // assetSymbol: isUpi ? "upi" : "BANK_TRANSFER",

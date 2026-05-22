@@ -113,6 +113,16 @@ class P2pBuySellTransationHistoryPage extends ConsumerWidget {
         separatorBuilder: (context, index) => SizedBox(height: 12.h),
         itemBuilder: (context, index) {
           final item = transactions[index];
+          final double amt = (item.amount ?? 0).toDouble();
+          final String formattedAmt =
+              (amt == amt.toInt())
+                  ? amt
+                      .toInt()
+                      .toString() // Agar 500.00 hai toh sirf 500 dikhayega
+                  : amt.toStringAsFixed(
+                    2,
+                  ); // Agar point ke baad value hai toh max 2 digits tak dikhayega
+          // ---------------------------------------------------------------
           return InkWell(
             onTap: () {
               selectedTab == 0
@@ -134,8 +144,10 @@ class P2pBuySellTransationHistoryPage extends ConsumerWidget {
               title: item.name ?? "Market",
               subtitle: item.counterParty?.name ?? "Unknown User",
               rate: "₹${item.rate ?? 0}/unit",
+              // amount:
+              //     "${selectedTab == 0 ? '+' : '-'}${item.amount ?? 0} ${item.walletType ?? 'USDT'}",
               amount:
-                  "${selectedTab == 0 ? '+' : '-'}${item.amount ?? 0} ${item.walletType ?? 'USDT'}",
+                  "${selectedTab == 0 ? '+' : '-'}$formattedAmt ${item.walletType ?? 'USDT'}",
               date: _formatTimestamp(item.createdAt),
               status: item.status?.toUpperCase() ?? "PENDING",
             ),
