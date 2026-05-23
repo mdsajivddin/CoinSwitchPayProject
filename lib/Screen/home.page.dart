@@ -253,14 +253,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         CrossAxisAlignment.stretch,
                                     children: [
                                       Expanded(
-                                        child: balanceCard(
+                                        child: remainingAndWithdrawl(
                                           "REMAINING BALANCE",
                                           "₹ ${remainBalance.toStringAsFixed(2)}",
                                         ),
                                       ),
                                       SizedBox(width: 12.w),
                                       Expanded(
-                                        child: balanceCard(
+                                        child: remainingAndWithdrawl(
                                           "TODAY'S WITHDRAW",
                                           "₹ ${totalWithdraw.toStringAsFixed(2)}",
                                         ),
@@ -281,84 +281,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                             /// 🔹 Fund Transfer with Shimmer
                             getFoundState.when(
-                              // data: (data) {
-                              //   final upi = data?.data?.upi ?? 0;
-                              //   final imps = data?.data?.imps ?? 0;
-                              //   final cdm = data?.data?.cdm ?? 0;
-                              //   final rtgs = data?.data?.rtgs ?? 0;
-                              //   return Container(
-                              //     padding: EdgeInsets.symmetric(
-                              //       vertical: 20.h,
-                              //       horizontal: 10.w,
-                              //     ),
-                              //     decoration: BoxDecoration(
-                              //       color: Colors.white.withOpacity(0.05),
-                              //       borderRadius: BorderRadius.circular(22.r),
-                              //       border: Border.all(
-                              //         color: Colors.white.withOpacity(0.08),
-                              //       ),
-                              //     ),
-                              //     child: Column(
-                              //       crossAxisAlignment:
-                              //           CrossAxisAlignment.start,
-                              //       children: [
-                              //         Text(
-                              //           "Fund Transfer Options",
-                              //           style: GoogleFonts.poppins(
-                              //             color: Colors.white,
-                              //             fontSize: 14.sp,
-                              //             fontWeight: FontWeight.w600,
-                              //           ),
-                              //         ),
-                              //         Divider(
-                              //           color: Colors.white10,
-                              //           thickness: 1.h,
-                              //         ),
-                              //         SizedBox(height: 10.h),
-                              //         transferTile(
-                              //           "assets/upi.png",
-                              //           "UPI",
-                              //           "Unified Payment Interface",
-                              //           "${data!.data?.upi ?? ""} INR",
-                              //           "20 minutes to 1 hour",
-                              //         ),
-                              //         Divider(
-                              //           color: Colors.white10,
-                              //           thickness: 1.h,
-                              //         ),
-                              //         transferTile(
-                              //           "assets/imps.png",
-                              //           "IMPS",
-                              //           "Immediate payment Service",
-                              //           "${data.data?.imps ?? 0} INR",
-                              //           "30 minutes to 1 hour",
-                              //         ),
-                              //         Divider(
-                              //           color: Colors.white10,
-                              //           thickness: 1.h,
-                              //         ),
-                              //         transferTile(
-                              //           "assets/cdm.jpeg",
-                              //           "CDM",
-                              //           "Cash Deposite Machine",
-                              //           "${data.data?.cdm ?? 0} INR",
-                              //           "1 hour to 2 hour",
-                              //         ),
-                              //         Divider(
-                              //           color: Colors.white10,
-                              //           thickness: 1.h,
-                              //         ),
-                              //         transferTile(
-                              //           "assets/rtgs.png",
-                              //           "RTGS",
-                              //           "Real Time Gross Settement",
-                              //           "${data.data?.rtgs ?? 0} INR",
-                              //           "10 minutes to 30 minutes",
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   );
-                              // },
                               data: (data) {
                                 num parseAmount(dynamic value) {
                                   if (value == null) return 0;
@@ -876,6 +798,88 @@ class _HomePageState extends ConsumerState<HomePage> {
             border: Border.all(color: Colors.white.withOpacity(0.08)),
           ),
           child: child,
+        ),
+      ),
+    );
+  }
+
+  Widget remainingAndWithdrawl(
+    String title,
+    String amount, {
+    String? subtitle,
+  }) {
+    // 🔹 Dynamic Font Size Logic: Agar string lambi hai (jaise "₹ 1,50,000.00"),
+    // toh font size auto-decrease hokar 14.sp ho jayega taaki line break na ho.
+    double calculatedFontSize = 18.sp;
+    if (amount.length > 12) {
+      calculatedFontSize = 14.sp;
+    } else if (amount.length > 9) {
+      calculatedFontSize = 15.5.sp;
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22.r),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 20.h,
+            left: 15.w,
+            right: 15.w,
+            bottom: 10.h,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            borderRadius: BorderRadius.circular(22.r),
+            border: Border.all(color: Colors.white.withOpacity(0.08)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Vertically stable rakhne ke liye
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF9CA3AF),
+                  fontSize: 12.sp,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                amount,
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF06CE8F),
+                  fontSize:
+                      calculatedFontSize, // 🔥 Dynamic size yahan apply ho raha hai
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines:
+                    1, // 🛑 Force 1 line: Isse symbol aur number kabhi alag nahi honge
+                overflow:
+                    TextOverflow
+                        .ellipsis, // Bada text truncate ho jayega par niche nahi utrega
+                textScaler:
+                    TextScaler
+                        .noScaling, // System UI font settings se safety ke liye
+              ),
+              if (subtitle != null) ...[
+                SizedBox(height: 4.h),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.poppins(
+                    color: const Color(0xFF64748B),
+                    fontSize: 10.sp,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
