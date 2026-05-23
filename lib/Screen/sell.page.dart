@@ -8,6 +8,31 @@ import 'package:payment_app/config/auth/router/rightsliderFageRoute.dart';
 import 'package:payment_app/data/controller/getFoundController.dart';
 import 'package:payment_app/data/controller/profileController.dart';
 
+/// 🔹 Extension to format doubles specifically for 3 decimal places and clean zeroes
+extension DoubleFormatter on double {
+  String toSmartString() {
+    if (this == 0.0) return "0";
+    if (this == toInt()) return toInt().toString();
+
+    String formatted = toStringAsFixed(3);
+
+    if (formatted.endsWith('.000')) {
+      return formatted.substring(0, formatted.length - 4);
+    }
+
+    // Trailing zeroes clean karne ke liye (.510 ko .51 dikhane ke liye)
+    if (formatted.contains('.')) {
+      while (formatted.endsWith('0')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+      if (formatted.endsWith('.')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+    }
+    return formatted;
+  }
+}
+
 class SellPage extends ConsumerStatefulWidget {
   const SellPage({super.key});
 
@@ -222,7 +247,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        "${currentBalance.toStringAsFixed(2)} ${selectedTab == 0 ? 'USDT' : 'TOKEN'}",
+                                        "${currentBalance.toSmartString()} ${selectedTab == 0 ? 'USDT' : 'TOKEN'}",
                                         style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white,
@@ -232,9 +257,9 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                       GestureDetector(
                                         onTap:
                                             () =>
-                                                amountController
-                                                    .text = currentBalance
-                                                    .toStringAsFixed(2),
+                                                amountController.text =
+                                                    currentBalance
+                                                        .toSmartString(),
                                         child: miniButton("Max"),
                                       ),
                                     ],
@@ -289,7 +314,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                 ),
                                 SizedBox(width: 6.w),
                                 Text(
-                                  "₹${calculatedTotal.toStringAsFixed(2)}",
+                                  "₹${calculatedTotal.toSmartString()}",
                                   style: GoogleFonts.poppins(
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w700,

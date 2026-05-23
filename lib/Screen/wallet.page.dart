@@ -687,20 +687,32 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:payment_app/data/controller/getWalletController.dart';
 import 'package:payment_app/data/controller/profileController.dart';
 
-/// 🔹 Extension to format doubles according to your requirement
 extension DoubleFormatter on double {
   String toSmartString() {
+    // 1. Agar absolute value zero hai, toh direct "0" return karega
     if (this == 0.0) return "0";
-    // Agar number already whole number hai (tulna ke liye 5.0), toh bina decimal ke dikhao
+
+    // 2. Agar number completely whole number hai (jaise 5.0), toh bina decimal ke dikhao
     if (this == toInt()) return toInt().toString();
 
-    // Point ke baad maximum 2 digits format karne ke liye
-    String formatted = toStringAsFixed(2);
+    // 3. Point ke baad maximum 3 digits format karne ke liye (.toStringAsFixed(3) use kiya hai)
+    String formatted = toStringAsFixed(3);
 
-    // Agar format hone ke baad glti se .00 reh gaya ho toh use clean karne ke liye
-    if (formatted.endsWith('.00')) {
-      return formatted.substring(0, formatted.length - 3);
+    // 4. Agar format hone ke baad glti se .000 reh gaya ho toh use clean karne ke liye
+    if (formatted.endsWith('.000')) {
+      return formatted.substring(0, formatted.length - 4);
     }
+
+    // Extra clean-up: Agar .X00 ya .XX0 jaisa format bache, toh bekar ke zeroes hatane ke liye (Optional par clean dikhta hai)
+    if (formatted.contains('.')) {
+      while (formatted.endsWith('0')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+      if (formatted.endsWith('.')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+    }
+
     return formatted;
   }
 }
