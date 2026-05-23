@@ -239,30 +239,34 @@ class _HomePageState extends ConsumerState<HomePage> {
                             profileState.when(
                               data: (data) {
                                 final totalWithdraw =
-                                    data?.data?.stats?.todayWithdraw ?? 0.0;
+                                    data?.data?.stats?.todayWithdraw ?? 0;
                                 final remainBalance =
-                                    data?.data?.stats?.remainBalance ?? 0.0;
+                                    data?.data?.stats?.remainBalance ?? 0;
 
                                 final usdt = data?.data?.wallet?.usdt ?? 0.0;
                                 final token = data?.data?.wallet?.token ?? 0.0;
 
                                 final total = usdt + token;
-                                return Row(
-                                  children: [
-                                    Expanded(
-                                      child: balanceCard(
-                                        "REMAINING BALANCE",
-                                        "₹ ${remainBalance.toStringAsFixed(2)}",
+                                return IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                        child: balanceCard(
+                                          "REMAINING BALANCE",
+                                          "₹ ${remainBalance.toStringAsFixed(2)}",
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 12.w),
-                                    Expanded(
-                                      child: balanceCard(
-                                        "TODAY'S WITHDRAW",
-                                        "₹ ${totalWithdraw.toStringAsFixed(1)}",
+                                      SizedBox(width: 12.w),
+                                      Expanded(
+                                        child: balanceCard(
+                                          "TODAY'S WITHDRAW",
+                                          "₹ ${totalWithdraw.toStringAsFixed(2)}",
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 );
                               },
                               error:

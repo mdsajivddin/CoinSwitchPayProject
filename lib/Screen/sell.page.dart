@@ -9,15 +9,15 @@ import 'package:payment_app/data/controller/getFoundController.dart';
 import 'package:payment_app/data/controller/profileController.dart';
 
 /// 🔹 Extension to format doubles specifically for 3 decimal places and clean zeroes
-extension DoubleFormatter on double {
+extension DoubleFormatterSellPage on double {
   String toSmartString() {
     if (this == 0.0) return "0";
     if (this == toInt()) return toInt().toString();
 
-    String formatted = toStringAsFixed(3);
+    String formatted = toStringAsFixed(2);
 
-    if (formatted.endsWith('.000')) {
-      return formatted.substring(0, formatted.length - 4);
+    if (formatted.endsWith('.00')) {
+      return formatted.substring(0, formatted.length - 3);
     }
 
     // Trailing zeroes clean karne ke liye (.510 ko .51 dikhane ke liye)
@@ -48,6 +48,9 @@ class _SellPageeState extends ConsumerState<SellPage> {
   double usdtBalance = 0;
   double tokenBalance = 0;
 
+  // 🔹 Yeh state variable pure fractional precision ko track karega
+  double? maxSelectedAmount;
+
   double get currentBalance => selectedTab == 0 ? usdtBalance : tokenBalance;
 
   final amountController = TextEditingController();
@@ -64,7 +67,12 @@ class _SellPageeState extends ConsumerState<SellPage> {
     amountController.addListener(() {
       final text = amountController.text;
 
-      if (text.isEmpty) return;
+      if (text.isEmpty) {
+        setState(() {
+          maxSelectedAmount = null; // Clear if empty
+        });
+        return;
+      }
 
       double value = double.tryParse(text) ?? 0;
 
@@ -81,6 +89,13 @@ class _SellPageeState extends ConsumerState<SellPage> {
       setState(() {
         activeMethodIndex = null;
         calculatedTotal = 0;
+
+        // 🔹 Agar user khud se modify kar rha hai aur text formatted screen text se alag hai,
+        // toh Max track variable ko null kar do taaki manually entered text request me jaye.
+        if (maxSelectedAmount != null &&
+            text != maxSelectedAmount!.toSmartString()) {
+          maxSelectedAmount = null;
+        }
       });
     });
   }
@@ -91,11 +106,13 @@ class _SellPageeState extends ConsumerState<SellPage> {
     super.dispose();
   }
 
-  double get enteredAmount => double.tryParse(amountController.text) ?? 0;
+  // double get enteredAmount => double.tryParse(amountController.text) ?? 0;
+  // 🔹 update enteredAmount logic to consider precise background variable
+  double get enteredAmount =>
+      maxSelectedAmount ?? (double.tryParse(amountController.text) ?? 0);
 
   @override
   Widget build(BuildContext context) {
-    // In real app, these come from your providers
     final getFoundState = ref.watch(getFoundProvider);
     final profileState = ref.watch(profileProvider);
 
@@ -255,11 +272,21 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                       ),
                                       SizedBox(height: 5.w),
                                       GestureDetector(
-                                        onTap:
-                                            () =>
-                                                amountController.text =
-                                                    currentBalance
-                                                        .toSmartString(),
+                                        // onTap:
+                                        //     () =>
+                                        //         amountController.text =
+                                        //             currentBalance
+                                        //                 .toSmartString(),
+                                        onTap: () {
+                                          setState(() {
+                                            // 1. Pure floating point numbers (point ke baad jitne bhi hain) save kar lo state mein
+                                            maxSelectedAmount = currentBalance;
+
+                                            // 2. UI display par user ko clean look hi dikhao jesa aap chahte the
+                                            amountController.text =
+                                                currentBalance.toSmartString();
+                                          });
+                                        },
                                         child: miniButton("Max"),
                                       ),
                                     ],
@@ -377,11 +404,19 @@ class _SellPageeState extends ConsumerState<SellPage> {
                               onTap: () {
                                 if (enteredAmount > 0 &&
                                     enteredAmount <= currentBalance) {
+                                  // 🔹 Yahan decide hoga: agar Max dabaya tha toh precise string (.toString()) jayegi,
+                                  // warna manually entered rounded value hi trim hokar jayegi.
+                                  final finalAmountToSend =
+                                      maxSelectedAmount != null
+                                          ? maxSelectedAmount!.toString()
+                                          : amountController.text.trim();
                                   Navigator.push(
                                     context,
                                     RightSlideFadeRoute(
                                       page: ConfirmSellPage(
-                                        amount: amountController.text.trim(),
+                                        // amount: amountController.text.trim(),
+                                        amount:
+                                            finalAmountToSend,  // 🔥 Ab isme point ke baad ki complete value jayegi
                                         rate: currentRate.toString(),
                                         totalamount: calculatedTotal,
                                         walletType:

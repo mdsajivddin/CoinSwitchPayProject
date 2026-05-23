@@ -56,6 +56,28 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
   String? selectedIfsc;
   String? selectedHolderName;
 
+  /// 🔹 Helper extension functionality local variable map karne ke liye
+  String getDisplayAmount() {
+    double parsed = double.tryParse(widget.amount) ?? 0.0;
+    // Hum use wahi clean layout de rahe hain jo humne SellPage extension me banaya tha
+    if (parsed == 0.0) return "0";
+    if (parsed == parsed.toInt()) return parsed.toInt().toString();
+
+    String formatted = parsed.toStringAsFixed(2);
+    if (formatted.endsWith('.00')) {
+      return formatted.substring(0, formatted.length - 3);
+    }
+    if (formatted.contains('.')) {
+      while (formatted.endsWith('0')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+      if (formatted.endsWith('.')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+    }
+    return formatted;
+  }
+
   @override
   void dispose() {
     pinController.dispose();
@@ -187,7 +209,7 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
                   SizedBox(height: 15.h),
                   detailRow(
                     "Selling",
-                    "${widget.amount} ${widget.walletType}",
+                    "${getDisplayAmount()} ${widget.walletType}",
                     icon: Icons.token,
                     iconColor: Colors.blueAccent,
                   ),

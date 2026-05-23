@@ -687,7 +687,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:payment_app/data/controller/getWalletController.dart';
 import 'package:payment_app/data/controller/profileController.dart';
 
-extension DoubleFormatter on double {
+extension DoubleFormatterWalletPage on double {
   String toSmartString() {
     // 1. Agar absolute value zero hai, toh direct "0" return karega
     if (this == 0.0) return "0";
@@ -696,11 +696,11 @@ extension DoubleFormatter on double {
     if (this == toInt()) return toInt().toString();
 
     // 3. Point ke baad maximum 3 digits format karne ke liye (.toStringAsFixed(3) use kiya hai)
-    String formatted = toStringAsFixed(3);
+    String formatted = toStringAsFixed(2);
 
     // 4. Agar format hone ke baad glti se .000 reh gaya ho toh use clean karne ke liye
-    if (formatted.endsWith('.000')) {
-      return formatted.substring(0, formatted.length - 4);
+    if (formatted.endsWith('.00')) {
+      return formatted.substring(0, formatted.length - 3);
     }
 
     // Extra clean-up: Agar .X00 ya .XX0 jaisa format bache, toh bekar ke zeroes hatane ke liye (Optional par clean dikhta hai)
