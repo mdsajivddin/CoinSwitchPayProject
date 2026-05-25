@@ -85,7 +85,7 @@ class Stats {
   factory Stats.fromJson(Map<String, dynamic> json) => Stats(
     todayWithdraw: _toDouble(
       json["todayWithdraw"],
-    ), // 💡 _toInt hata kar _toDouble kiya
+    ), 
     remainBalance: _toDouble(json["remainBalance"]),
   );
 

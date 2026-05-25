@@ -142,7 +142,7 @@ class Data {
 }
 
 class PaidList {
-  int? amount;
+  double? amount;
   String? hash;
   int? createdAt;
   String? id;
@@ -150,7 +150,10 @@ class PaidList {
   PaidList({this.amount, this.hash, this.createdAt, this.id});
 
   factory PaidList.fromJson(Map<String, dynamic> json) => PaidList(
-    amount: json["amount"],
+    amount:
+        json["amount"] != null
+            ? double.tryParse(json["amount"].toString())
+            : null,
     hash: json["hash"],
     createdAt: json["createdAt"],
     id: json["_id"],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,20 +32,39 @@ class _UsdtToSellInrDetailsHistoryPageState
             body: Center(child: CircularProgressIndicator()),
           ),
 
-      error:
-          (e, st) => Scaffold(
-            backgroundColor: const Color(0xFF09111C),
-            body: Center(
-              child: Text(
-                "Error: $e",
-                style: const TextStyle(color: Colors.white),
-              ),
+      error: (e, st) {
+        log(st.toString());
+        return Scaffold(
+          backgroundColor: const Color(0xFF09111C),
+          body: Center(
+            child: Text(
+              "Error: $e",
+              style: const TextStyle(color: Colors.white),
             ),
           ),
+        );
+      },
 
       data: (data) {
         final item = data.data;
         final status = item?.status?.toLowerCase() ?? "pending";
+        // 1. Raw inputs ko parse kiya safely
+        final double backendAmount =
+            double.tryParse(item?.amount?.toString() ?? '0') ?? 0.0;
+        final double rawRate =
+            double.tryParse(item?.rate?.toString() ?? '0') ?? 0.0;
+
+        // 2. 🌟 CRITICAL FIX: Jo UI me dikh raha hai (100000.57), exact usme parse kiya string format use karke
+        final double roundedAmount = double.parse(
+          backendAmount.toStringAsFixed(2),
+        );
+
+        // 3. Ab rounded amount aur rate ko multiply kiya (100000.57 * 116)
+        final double calculatedSettlement = roundedAmount * rawRate;
+
+        log("Backend Raw Amount: $backendAmount"); // 100000.56788449542
+        log("UI Rounded Amount: $roundedAmount"); // 100000.57
+        log("Final Settlement: $calculatedSettlement");
 
         Color statusColor;
         String statusText;
@@ -182,22 +203,9 @@ class _UsdtToSellInrDetailsHistoryPageState
 
                       SizedBox(height: 20.h),
 
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     _amountBlock(
-                      //       "SELLING AMOUNT",
-                      //       "${item?.amount ?? 0} USDT",
-                      //     ),
-                      //     _amountBlock(
-                      //       "EXCHANGE RATE",
-                      //       item?.rate.toString() ?? "-",
-                      //     ),
-                      //   ],
-                      // ),
                       _row(
                         "SELLING AMOUNT",
-                        "\$${item?.amount ?? 0}",
+                        "\$${item?.amount?.toStringAsFixed(2) ?? 0}",
                         isBold: true,
                       ),
                       SizedBox(height: 10.h),
@@ -211,7 +219,8 @@ class _UsdtToSellInrDetailsHistoryPageState
 
                       _row(
                         "Total Settlement",
-                        "₹${item?.totalAmount ?? 0}",
+                        "₹${calculatedSettlement.toStringAsFixed(2)}",
+
                         isBold: true,
                       ),
 
@@ -261,18 +270,6 @@ class _UsdtToSellInrDetailsHistoryPageState
                       _row("Method", item?.paymentMethods?.methodType ?? "-"),
                       SizedBox(height: 12.h),
 
-                      // _row(
-                      //   "Holder Name",
-                      //   item?.paymentMethods?.details?.upiId ?? "-",
-                      // ),
-                      // SizedBox(height: 12.h),
-
-                      // _row(
-                      //   "UPI ID",
-                      //   item?.paymentMethods?.details?.upiId ?? "-",
-                      // ),
-                      // SizedBox(height: 12.h),
-                      /// 🔥 CONDITION BASED UI
                       if (item?.paymentMethods?.methodType == "UPI") ...[
                         _row(
                           "Holder Name",
@@ -423,7 +420,7 @@ class _UsdtToSellInrDetailsHistoryPageState
   }
 
   Widget _paymentTimelineCard({
-    required int amount,
+    required num amount,
     required String utr,
     required int time,
     required String status,

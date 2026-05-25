@@ -10,6 +10,30 @@ import 'package:payment_app/config/auth/router/rightsliderFageRoute.dart';
 import 'package:payment_app/data/controller/inrToTokenBuyHistoryConroller.dart';
 import 'package:payment_app/data/controller/usdtToSelInrController.dart';
 
+extension DoubleFormatterSellingHistory on double {
+  String toSmartString() {
+    if (this == 0.0) return "0";
+
+    // Limit to maximum 2 or 3 decimal places as per your design
+    String formatted = toStringAsFixed(2);
+
+    if (formatted.endsWith('.00')) {
+      return formatted.substring(0, formatted.length - 3);
+    }
+
+    if (formatted.contains('.')) {
+      while (formatted.endsWith('0')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+      if (formatted.endsWith('.')) {
+        formatted = formatted.substring(0, formatted.length - 1);
+      }
+    }
+
+    return formatted;
+  }
+}
+
 class UsdtToSellInrHistoryPage extends ConsumerStatefulWidget {
   const UsdtToSellInrHistoryPage({super.key});
 
@@ -145,7 +169,9 @@ class _UsdtToSellInrHistoryPageState
         statusColor = Colors.white54;
         statusText = status;
     }
-
+    // 🟢 CRITICAL FIX HERE: Explicitly parse/cast into a strict double variable.
+    // This tells Dart exactly what type it is, resolving the extension lookup error.
+    final double amountValue = double.tryParse(item.amount.toString()) ?? 0.0;
     return Container(
       margin: EdgeInsets.only(bottom: 15.h),
       padding: EdgeInsets.all(16.w),
@@ -207,7 +233,7 @@ class _UsdtToSellInrHistoryPageState
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "-\$${item.amount}",
+                "-\$${amountValue.toSmartString()}",
                 style: GoogleFonts.poppins(
                   color: const Color(0xFF06CE8F),
                   fontWeight: FontWeight.bold,

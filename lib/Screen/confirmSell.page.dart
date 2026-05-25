@@ -27,6 +27,7 @@ class ConfirmSellPage extends ConsumerStatefulWidget {
   final String timer;
   final String selectedTitle;
   final String paymentType;
+  final double calculateTotalRecieve;
 
   const ConfirmSellPage({
     super.key,
@@ -38,6 +39,7 @@ class ConfirmSellPage extends ConsumerStatefulWidget {
     required this.timer,
     required this.selectedTitle,
     required this.paymentType,
+    required this.calculateTotalRecieve,
   });
 
   @override
@@ -213,7 +215,46 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
                     icon: Icons.token,
                     iconColor: Colors.blueAccent,
                   ),
-                  detailRow("Rate", "₹${widget.rate}", isInfo: true),
+                  // detailRow(
+                  //   "Rate",
+                  //   "₹${widget.rate}${(widget.selectedTitle.toUpperCase())})",
+                  //   isInfo: true,
+                  // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 6.h),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Rate",
+                              style: GoogleFonts.poppins(
+                                fontSize: 13.sp,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Text(
+                          "₹${widget.rate}",
+                          style: GoogleFonts.poppins(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "(${widget.selectedTitle.toUpperCase()})",
+                          style: GoogleFonts.poppins(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -222,7 +263,8 @@ class _ConfirmSellPageState extends ConsumerState<ConfirmSellPage> {
 
                   detailRow(
                     "Total Receive:",
-                    "₹${widget.totalamount.toStringAsFixed(2)}",
+                    // "₹${widget.totalamount.toStringAsFixed(2)}",
+                    "₹${widget.calculateTotalRecieve.toStringAsFixed(2)}",
                     isBold: true,
                   ),
 

@@ -45,6 +45,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
   int? activeMethodIndex; // Null initially, set when user clicks a card
   double currentRate = 0;
   double calculatedTotal = 0;
+  double calculatedTotalRecieve = 0;
   double usdtBalance = 0;
   double tokenBalance = 0;
 
@@ -89,6 +90,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
       setState(() {
         activeMethodIndex = null;
         calculatedTotal = 0;
+        calculatedTotalRecieve = 0;
 
         // 🔹 Agar user khud se modify kar rha hai aur text formatted screen text se alag hai,
         // toh Max track variable ko null kar do taaki manually entered text request me jaye.
@@ -106,7 +108,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
     super.dispose();
   }
 
-  // double get enteredAmount => double.tryParse(amountController.text) ?? 0;
+  double get enteredAmountShow => double.tryParse(amountController.text) ?? 0;
   // 🔹 update enteredAmount logic to consider precise background variable
   double get enteredAmount =>
       maxSelectedAmount ?? (double.tryParse(amountController.text) ?? 0);
@@ -341,7 +343,8 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                 ),
                                 SizedBox(width: 6.w),
                                 Text(
-                                  "₹${calculatedTotal.toSmartString()}",
+                                  // "₹${calculatedTotal.toSmartString()}",
+                                  "₹${calculatedTotalRecieve.toSmartString()}",
                                   style: GoogleFonts.poppins(
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w700,
@@ -416,7 +419,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                       page: ConfirmSellPage(
                                         // amount: amountController.text.trim(),
                                         amount:
-                                            finalAmountToSend,  // 🔥 Ab isme point ke baad ki complete value jayegi
+                                            finalAmountToSend, // 🔥 Ab isme point ke baad ki complete value jayegi
                                         rate: currentRate.toString(),
                                         totalamount: calculatedTotal,
                                         walletType:
@@ -425,6 +428,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
                                         timer: selectedTimer,
                                         selectedTitle: selectedTitle,
                                         paymentType: paymentType,
+                                        calculateTotalRecieve: calculatedTotalRecieve,
                                       ),
                                     ),
                                   );
@@ -510,6 +514,7 @@ class _SellPageeState extends ConsumerState<SellPage> {
                   activeMethodIndex = index;
                   currentRate = rate;
                   calculatedTotal = enteredAmount * rate;
+                  calculatedTotalRecieve = enteredAmountShow * rate;
                   selectedPayment = payment;
                   selectedTimer = timer;
                   selectedTitle = title;
